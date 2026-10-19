@@ -1,0 +1,186 @@
+# 21 CFR RAG: single source of truth for every tunable setting.
+# Experiment files in config/experiments/ are deep-merged on top of this file.
+
+paths:
+  data_dir: data
+  raw_dir: data/raw            # downloaded eCFR XML + manifest.json per as-of date
+  db_path: data/cfr21.sqlite   # sections, chunks, definitions (keyed by chunk_id)
+  index_dir: data/index/structural
+  cache_dir: data/cache        # embedding cache
+  eval_dir: eval
+  reports_dir: eval/reports
+
+logging:
+  level: INFO
+  format: "%(asctime)s %(levelname)-7s %(name)s: %(message)s"
+
+ecfr:
+  base_url: https://www.ecfr.gov
+  titles_endpoint: /api/versioner/v1/titles.json
+  full_endpoint: /api/versioner/v1/full/{date}/title-{title}.xml
+  structure_endpoint: /api/versioner/v1/structure/{date}/title-{title}.json
+  versions_endpoint: /api/versioner/v1/versions/title-{title}.json
+  section_url_template: https://www.ecfr.gov/current/title-{title}/section-{section}
+  paragraph_url_template: https://www.ecfr.gov/current/title-{title}/section-{section}#p-{section}{paragraph}
+  part_url_template: https://www.ecfr.gov/current/title-{title}/part-{part}
+  title: 21
+  chapters: [I, II, III]
+  download_mode: full          # full | by_part (by_part is the fallback if full times out)
+  timeout_s: 300
+  max_retries: 4
+  backoff_s: 2.0
+  user_agent: cfr21-rag/0.1 (research)
+
+chunking:
+  chunker: structural          # structural | fixed | module.path:ClassName
+  tokenizer: hf                # hf (embedding model tokenizer) | approx (word-count heuristic)
+  max_tokens: 512              # token cap per chunk body
+  overlap_tokens: 48           # carried over between split pieces of one section
+  min_tokens: 64               # sections smaller than this may be merged with neighbours
+  merge_max_tokens: 384        # upper bound for a merged chunk
+  include_notes: true          # append effective-date / editorial notes to section text
+  header_template: "21 CFR Part {part}{subpart_part} > {section_id} {heading}"
+  fixed:
+    size_tokens: 400
+    overlap_tokens: 50
+  definitions:
+    mode: per_term             # per_term | section | both
+    heading_pattern: "(?i)\\b(definitions?|meaning of terms|terms defined)\\b"
+    min_terms: 2
+
+embedding:
+  backend: qwen3               # qwen3 | hash (tiny offline embedder for tests) | module:Class
+  model_name: Qwen/Qwen3-Embedding-0.6B
+  query_instruction: "Given a question about U.S. federal food and drug regulations (21 CFR), retrieve the regulation passages that answer it"
+  query_template: "Instruct: {instruction}\nQuery:{query}"
+  dimension: null              # Matryoshka output dim (e.g. 512, 256). null = full model dim (1024)
+  max_length: 2048
+  batch_size: 16               # upper bound on texts per forward pass
+  max_batch_tokens: 16384      # token budget per batch (keeps Apple-silicon memory in check)
+  device: auto                 # auto | mps | cuda | cpu
+  dtype: auto                  # auto | float32 | float16 | bfloat16
+  normalize: true
+
+index:
+  dense:
+    type: flat                 # flat (IndexFlatIP) | hnsw | numpy (no faiss, for tests)
+    hnsw_m: 32
+    hnsw_ef_construction: 200
+    hnsw_ef_search: 128
+  lexical:
+    backend: bm25s             # bm25s | simple (pure numpy, for tests)
+    k1: 1.5
+    b: 0.75
+    stopwords: en
+    stemmer: english           # null disables stemming
+    token_pattern: "(?u)\\b\\d+(?:\\.\\d+)+[a-z]?\\b|\\b\\w\\w+\\b"
+
+retrieval:
+  dense_top_k: 50
+  bm25_top_k: 50
+  fused_top_k: 50
+  fusion:
+    method: rrf
+    rrf_k: 60
+    weights:
+      dense: 1.0
+      bm25: 1.0
+  router:
+    enabled: true
+    pin_exact_matches: true    # exact citation hits always survive reranking
+    exact_then_hybrid: true    # after exact lookup, also run hybrid to fill context
+    part_as_filter: true       # "part 211" in the query narrows hybrid search to that part
+    max_exact_chunks: 6
+  query_rewrite:
+    enabled: false
+  multi_query:
+    enabled: false
+    num_queries: 3
+
+rerank:
+  enabled: true
+  backend: qwen3               # qwen3 | none | module:Class
+  model_name: Qwen/Qwen3-Reranker-0.6B
+  instruction: "Given a question about 21 CFR, judge whether the regulation passage contains information that answers the question"
+  top_n_in: 50
+  top_n_out: 8
+  batch_size: 8
+  max_length: 4096
+  device: auto
+  dtype: auto
+
+generation:
+  max_context_tokens: 6000
+  expand_to_parent: true       # replace split chunks with their full section when it fits
+  max_parent_tokens: 1500
+  definitions:
+    enabled: true
+    max_definitions: 3
+  refusal_text: "The retrieved sections of 21 CFR do not answer this question."
+  snippet_chars: 320
+
+llm:
+  default_provider: openrouter # every call goes here unless a role or request overrides it
+  providers:
+    openrouter:
+      kind: openai_compatible
+      base_url: https://openrouter.ai/api/v1
+      api_key_env: OPENROUTER_API_KEY
+      timeout_s: 60
+      max_retries: 3
+      backoff_s: 1.5
+      extra_headers:
+        X-Title: cfr21-rag
+    ollama:
+      kind: ollama
+      base_url: http://localhost:11434
+      timeout_s: 180
+      max_retries: 2
+      backoff_s: 1.0
+  roles:
+    generation:
+      provider: null           # null = llm.default_provider
+      temperature: 0.0
+      max_tokens: 1200
+      models:
+        openrouter: inkling    # check the exact model ID at https://openrouter.ai/models
+        ollama: qwen3:8b
+    rewrite:
+      provider: null
+      temperature: 0.3
+      max_tokens: 300
+      models:
+        openrouter: inkling
+        ollama: qwen3:8b
+    judge:
+      provider: null
+      temperature: 0.0
+      max_tokens: 800
+      models:
+        openrouter: inkling
+        ollama: qwen3:8b
+
+api:
+  host: 127.0.0.1
+  port: 8000
+  cors_origins: ["http://localhost:8501"]
+
+ui:
+  api_url: http://127.0.0.1:8000
+  title: 21 CFR Assistant
+  request_timeout_s: 300
+
+eval:
+  gold_path: eval/gold.jsonl
+  k_values: [1, 3, 5, 10, 20]
+  ndcg_k: 10
+  retrieval_modes: [dense, bm25, hybrid, hybrid_rerank]
+  generation_sample: null      # null = all gold questions; an int samples that many
+  seed: 13
+  goldgen:
+    citation: 30
+    topical: 40
+    definitional: 35
+    multi_section: 25
+    unanswerable: 25
+    use_llm: true              # LLM rephrases topical/multi-section questions; false = templates

@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cfr21-rag"
+version = "0.1.0"
+description = "Retrieval-augmented QA over 21 CFR (Food and Drugs) with exact section citations"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "pydantic>=2.6",
+  "pyyaml>=6.0",
+  "python-dotenv>=1.0",
+  "lxml>=5.0",
+  "requests>=2.31",
+  "numpy>=1.26",
+  "tqdm>=4.66",
+  "faiss-cpu>=1.8",
+  "bm25s>=0.2.6",
+  "PyStemmer>=2.2",
+  "torch>=2.3",
+  "transformers>=4.51",
+  "openai>=1.40",
+  "fastapi>=0.111",
+  "uvicorn[standard]>=0.30",
+  "streamlit>=1.37",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.5", "httpx>=0.27"]
+
+[project.scripts]
+cfr-rag = "cfr_rag.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "W"]
+ignore = ["E501"]
