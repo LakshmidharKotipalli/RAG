@@ -1,0 +1,6 @@
+# Fusion weighting: favour lexical matches (regulatory text is term-heavy).
+retrieval:
+  fusion:
+    weights:
+      dense: 1.0
+      bm25: 2.0

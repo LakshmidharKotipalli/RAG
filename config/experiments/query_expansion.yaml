@@ -1,0 +1,7 @@
+# LLM query rewriting + multi-query expansion on the default index.
+retrieval:
+  query_rewrite:
+    enabled: true
+  multi_query:
+    enabled: true
+    num_queries: 3

@@ -1,0 +1,5 @@
+# Matryoshka: 256-dim embeddings (smaller index, faster search). Reuses the embedding cache.
+embedding:
+  dimension: 256
+paths:
+  index_dir: data/index/structural-mrl256

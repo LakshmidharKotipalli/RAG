@@ -154,7 +154,8 @@ class RAGPipeline:
             "fused_candidates": [c.debug(160) for c in res.candidates[:20]],
             "final_candidates": [c.debug(400) for c in final],
             "context_blocks": [{"index": b.index, "section_id": b.section_id, "label": b.label,
-                                "kind": b.kind, "chunk_ids": b.chunk_ids} for b in context],
+                                "kind": b.kind, "chunk_ids": b.chunk_ids, "text": b.text}
+                               for b in context],
             "index": {"chunker": self.bundle.chunker_id, "as_of_date": self.bundle.meta.as_of_date,
                       "embedding_model": self.bundle.meta.embedding_model,
                       "dimension": self.bundle.meta.dimension},

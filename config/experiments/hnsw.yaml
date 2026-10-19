@@ -1,0 +1,6 @@
+# Approximate nearest neighbour search instead of exact flat inner product.
+index:
+  dense:
+    type: hnsw
+paths:
+  index_dir: data/index/structural-hnsw

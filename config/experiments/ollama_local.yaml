@@ -1,0 +1,3 @@
+# Run generation, rewriting and judging fully locally through Ollama.
+llm:
+  default_provider: ollama

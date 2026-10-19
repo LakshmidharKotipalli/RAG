@@ -12,7 +12,7 @@ from cfr_rag.chunking.service import chunk_corpus, chunker_id
 from cfr_rag.config import AppConfig
 from cfr_rag.embeddings.base import CachedEmbedder, build_embedder
 from cfr_rag.index.base import DenseIndex, LexicalIndex
-from cfr_rag.index.metadata import IndexMetadata
+from cfr_rag.index.metadata import IndexMetadata, IndexMismatchError
 from cfr_rag.registry import resolve
 from cfr_rag.store.sqlite_store import SQLiteStore
 
@@ -85,6 +85,11 @@ def load_indexes(cfg: AppConfig, embedder: CachedEmbedder | None = None) -> Inde
     index_dir = Path(cfg.paths.index_dir)
     meta = IndexMetadata.load(index_dir)
     meta.check_compatible(cfg)  # cheap check first: model name, backend, configured dim
+    if meta.chunker_id != chunker_id(cfg):
+        raise IndexMismatchError(
+            f"Index at {index_dir} was built from chunks '{meta.chunker_id}' but the current "
+            f"chunking config is '{chunker_id(cfg)}'. Rebuild with `cfr-rag index` or set "
+            "paths.index_dir to an index built with these chunking settings.")
     embedder = embedder or build_embedder(cfg.embedding, str(cfg.paths.cache_dir))
     meta.check_compatible(cfg, expected_dim=embedder.dim)  # actual query-vector dim
     dense = resolve("dense_index", meta.dense_type)(cfg.index.dense.model_copy(

@@ -1,0 +1,5 @@
+# Baseline: fixed-size token windows instead of structure-aware chunks.
+chunking:
+  chunker: fixed
+paths:
+  index_dir: data/index/fixed
