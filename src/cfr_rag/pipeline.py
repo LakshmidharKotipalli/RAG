@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import threading
 import time
 from collections.abc import Iterator
 from typing import Any, Literal
@@ -56,6 +57,8 @@ class RAGPipeline:
         self.retriever = retriever
         self.reranker = reranker
         self.generator = generator
+        # Local models (embedder/reranker) are not safe to run concurrently on one device.
+        self._model_lock = threading.Lock()
 
     @classmethod
     def from_config(cls, cfg: AppConfig, bundle: IndexBundle | None = None,
@@ -78,17 +81,19 @@ class RAGPipeline:
                  provider: str | None = None, model: str | None = None,
                  top_k: int | None = None) -> tuple[RetrievalResult, list[Candidate], dict]:
         """Retrieve and (optionally) rerank. Returns ``(retrieval, final_candidates, debug)``."""
-        res = self.retriever.retrieve(question, filters, mode=mode, use_router=use_router,
-                                      provider=provider, model=model)
-        timings = dict(res.timings_ms)
-        do_rerank = self.reranker is not None and (rerank is None or rerank)
-        n_out = top_k or self.cfg.rerank.top_n_out
-        if do_rerank and res.candidates:
-            final = self.reranker.rerank(question, list(res.candidates), self.cfg.rerank.top_n_in,
-                                         n_out, pin=self.cfg.retrieval.router.pin_exact_matches)
-            timings["rerank_ms"] = self.reranker.last_latency_ms
-        else:
-            final = res.candidates[:n_out]
+        with self._model_lock:
+            res = self.retriever.retrieve(question, filters, mode=mode, use_router=use_router,
+                                          provider=provider, model=model)
+            timings = dict(res.timings_ms)
+            do_rerank = self.reranker is not None and (rerank is None or rerank)
+            n_out = top_k or self.cfg.rerank.top_n_out
+            if do_rerank and res.candidates:
+                final = self.reranker.rerank(question, list(res.candidates),
+                                             self.cfg.rerank.top_n_in, n_out,
+                                             pin=self.cfg.retrieval.router.pin_exact_matches)
+                timings["rerank_ms"] = self.reranker.last_latency_ms
+            else:
+                final = res.candidates[:n_out]
         return res, final, timings
 
     # ------------------------------------------------------------------ answering
