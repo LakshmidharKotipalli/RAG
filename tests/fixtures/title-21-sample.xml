@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Hand-built sample in the shape of eCFR versioner "full" XML, used for offline tests.
+     Text is abridged from 21 CFR and must not be treated as authoritative. -->
+<ECFR>
+<DIV1 N="21" NODE="21:1" TYPE="TITLE">
+<HEAD>Title 21 - Food and Drugs</HEAD>
+<DIV3 N="I" NODE="21:1.0.1" TYPE="CHAPTER">
+<HEAD>CHAPTER I - FOOD AND DRUG ADMINISTRATION, DEPARTMENT OF HEALTH AND HUMAN SERVICES</HEAD>
+<DIV4 N="C" NODE="21:4.0.1.1" TYPE="SUBCHAP">
+<HEAD>SUBCHAPTER C - DRUGS: GENERAL</HEAD>
+<DIV5 N="210" NODE="21:4.0.1.1.10" TYPE="PART">
+<HEAD>PART 210 - CURRENT GOOD MANUFACTURING PRACTICE IN MANUFACTURING, PROCESSING, PACKING, OR HOLDING OF DRUGS; GENERAL</HEAD>
+<AUTH><HED>Authority:</HED><PSPACE>21 U.S.C. 321, 351, 352, 355, 360b, 371, 374; 42 U.S.C. 216, 262, 263a, 264.</PSPACE></AUTH>
+<SOURCE><HED>Source:</HED><PSPACE>43 FR 45076, Sept. 29, 1978, unless otherwise noted.</PSPACE></SOURCE>
+<DIV8 N="210.1" NODE="21:4.0.1.1.10.0.1.1" TYPE="SECTION">
+<HEAD>§ 210.1   Status of current good manufacturing practice regulations.</HEAD>
+<P>(a) The regulations set forth in this part and in parts 211, 225, and 226 of this chapter contain the minimum current good manufacturing practice for methods to be used in the manufacture, processing, packing, or holding of a drug.</P>
+<P>(b) The failure to comply with any regulation set forth in this part and in parts 211 through 226 shall render the drug adulterated.</P>
+<CITA TYPE="N">[43 FR 45076, Sept. 29, 1978, as amended at 69 FR 29828, May 25, 2004]</CITA>
+</DIV8>
+<DIV8 N="210.3" NODE="21:4.0.1.1.10.0.1.3" TYPE="SECTION">
+<HEAD>§ 210.3   Definitions.</HEAD>
+<P>(a) The definitions and interpretations contained in section 201 of the act shall be applicable to such terms when used in this part and in parts 211 through 226 of this chapter.</P>
+<P>(b) The following definitions of terms apply to parts 211 through 226 of this chapter.</P>
+<P>(1) <I>Act</I> means the Federal Food, Drug, and Cosmetic Act, as amended (21 U.S.C. 301 <I>et seq.</I>).</P>
+<P>(2) <I>Batch</I> means a specific quantity of a drug or other material that is intended to have uniform character and quality, within specified limits, and is produced according to a single manufacturing order during the same cycle of manufacture.</P>
+<P>(3) <I>Component</I> means any ingredient intended for use in the manufacture of a drug product, including those that may not appear in such drug product.</P>
+<P>(4) <I>Drug product</I> means a finished dosage form, for example, tablet, capsule, solution, etc., that contains an active drug ingredient generally, but not necessarily, in association with inactive ingredients.</P>
+<CITA TYPE="N">[43 FR 45076, Sept. 29, 1978, as amended at 51 FR 7389, Mar. 3, 1986]</CITA>
+</DIV8>
+</DIV5>
+<DIV5 N="211" NODE="21:4.0.1.1.11" TYPE="PART">
+<HEAD>PART 211 - CURRENT GOOD MANUFACTURING PRACTICE FOR FINISHED PHARMACEUTICALS</HEAD>
+<AUTH><HED>Authority:</HED><PSPACE>21 U.S.C. 321, 351, 352, 355, 371, 374.</PSPACE></AUTH>
+<SOURCE><HED>Source:</HED><PSPACE>43 FR 45077, Sept. 29, 1978, unless otherwise noted.</PSPACE></SOURCE>
+<DIV6 N="A" NODE="21:4.0.1.1.11.1" TYPE="SUBPART">
+<HEAD>Subpart A - General Provisions</HEAD>
+<DIV8 N="211.1" NODE="21:4.0.1.1.11.1.1.1" TYPE="SECTION">
+<HEAD>§ 211.1   Scope.</HEAD>
+<P>(a) The regulations in this part contain the minimum current good manufacturing practice for preparation of drug products (excluding positron emission tomography drugs) for administration to humans or animals.</P>
+<P>(b) The current good manufacturing practice regulations in this chapter as they pertain to drug products are supplemented by § 210.1 and part 600 of this chapter.</P>
+</DIV8>
+<DIV8 N="211.3" NODE="21:4.0.1.1.11.1.1.3" TYPE="SECTION">
+<HEAD>§ 211.3   Definitions.</HEAD>
+<P>The definitions set forth in § 210.3 of this chapter apply in this part.</P>
+</DIV8>
+</DIV6>
+<DIV6 N="D" NODE="21:4.0.1.1.11.4" TYPE="SUBPART">
+<HEAD>Subpart D - Equipment</HEAD>
+<DIV8 N="211.63" NODE="21:4.0.1.1.11.4.1.1" TYPE="SECTION">
+<HEAD>§ 211.63   Equipment design, size, and location.</HEAD>
+<P>Equipment used in the manufacture, processing, packing, or holding of a drug product shall be of appropriate design, adequate size, and suitably located to facilitate operations for its intended use and for its cleaning and maintenance.</P>
+</DIV8>
+<DIV8 N="211.64" NODE="21:4.0.1.1.11.4.1.2" TYPE="SECTION">
+<HEAD>§ 211.64   [Reserved]</HEAD>
+</DIV8>
+<DIV8 N="211.68" NODE="21:4.0.1.1.11.4.1.4" TYPE="SECTION">
+<HEAD>§ 211.68   Automatic, mechanical, and electronic equipment.</HEAD>
+<P>(a) Automatic, mechanical, or electronic equipment or other types of equipment, including computers, or related systems that will perform a function satisfactorily, may be used in the manufacture, processing, packing, and holding of a drug product. If such equipment is so used, it shall be routinely calibrated, inspected, or checked according to a written program designed to assure proper performance. Written records of those calibration checks and inspections shall be maintained.</P>
+<P>(b) Appropriate controls shall be exercised over computer or related systems to assure that changes in master production and control records or other records are instituted only by authorized personnel. Input to and output from the computer or related system of formulas or other records or data shall be checked for accuracy. A backup file of data entered into the computer or related system shall be maintained except where certain data, such as calculations performed in connection with laboratory analysis, are eliminated by computerization or other automated processes. In such instances a written record of the program shall be maintained along with appropriate validation data. Hard copy or alternative systems, such as duplicates, tapes, or microfilm, designed to assure that backup data are exact and complete and that it is secure from alteration, inadvertent erasures, or loss shall be maintained.</P>
+<P>(c) Such automated equipment used for performance of operations addressed by §§ 211.101(c) or (d), 211.103, 211.182, or 211.188(b)(11) can satisfy the requirements included in those sections relating to the performance of an operation by one person and checking by another person if such equipment is used in conformity with this section, and one person checks that the equipment properly performed the operation.</P>
+<CITA TYPE="N">[43 FR 45077, Sept. 29, 1978, as amended at 60 FR 4091, Jan. 20, 1995; 73 FR 51932, Sept. 8, 2008]</CITA>
+</DIV8>
+<DIV8 N="211.69" NODE="21:4.0.1.1.11.4.1.5" TYPE="SECTION">
+<HEAD>§ 211.69   Nesting test section.</HEAD>
+<P>(a) Intro to (a).</P>
+<P>(1) First numbered paragraph.</P>
+<P>(i) First roman under (a)(1).</P>
+<P>(ii) Second roman.</P>
+<P>(<I>A</I>) Upper under (ii).</P>
+<P>(<I>1</I>) Italic digit under (A).</P>
+<P>(2) Second numbered paragraph.</P>
+<P>(b) Second lettered paragraph.</P>
+<P>(c) Third.</P>
+<P>(d) Fourth.</P>
+<P>(e) Fifth.</P>
+<P>(f) Sixth.</P>
+<P>(g) Seventh.</P>
+<P>(h) Eighth paragraph with a table:</P>
+<GPOTABLE COLS="2" OPTS="L2" CDEF="s50,10">
+<BOXHD><CHED H="1">Equipment class</CHED><CHED H="1">Calibration interval (months)</CHED></BOXHD>
+<ROW><ENT I="01">Balances</ENT><ENT>6</ENT></ROW>
+<ROW><ENT I="01">pH meters</ENT><ENT>12</ENT></ROW>
+</GPOTABLE>
+<P>(i) Ninth lettered paragraph, which is a letter and not a roman numeral.</P>
+<P>(j)(1) Chained marker paragraph.</P>
+<EFFDNOT><HED>Effective Date Note:</HED><PSPACE>At 89 FR 12345, Feb. 1, 2024, § 211.69 was amended by revising paragraph (b), effective Feb. 2, 2026.</PSPACE></EFFDNOT>
+</DIV8>
+</DIV6>
+</DIV5>
+</DIV4>
+<DIV4 N="B" NODE="21:2.0.1.1" TYPE="SUBCHAP">
+<HEAD>SUBCHAPTER B - FOOD FOR HUMAN CONSUMPTION</HEAD>
+<DIV5 N="101" NODE="21:2.0.1.1.2" TYPE="PART">
+<HEAD>PART 101 - FOOD LABELING</HEAD>
+<DIV6 N="A" NODE="21:2.0.1.1.2.1" TYPE="SUBPART">
+<HEAD>Subpart A - General Provisions</HEAD>
+<DIV8 N="101.1" NODE="21:2.0.1.1.2.1.1.1" TYPE="SECTION">
+<HEAD>§ 101.1   Principal display panel of package form food.</HEAD>
+<P>The term <I>principal display panel</I> as it applies to food in package form means the part of a label that is most likely to be displayed under customary conditions of display for retail sale.</P>
+</DIV8>
+<DIV8 N="101.2" NODE="21:2.0.1.1.2.1.1.2" TYPE="SECTION">
+<HEAD>§ 101.2   Information panel of package form food.</HEAD>
+<P>(a) The term <I>information panel</I> means that part of the label immediately contiguous and to the right of the principal display panel.</P>
+</DIV8>
+</DIV6>
+<DIV9 N="Appendix A" NODE="21:2.0.1.1.2.9.1" TYPE="APPENDIX">
+<HEAD>Appendix A to Part 101 - Monier-Williams Procedure</HEAD>
+<HD SOURCE="HD1">Apparatus</HD>
+<P>The apparatus is assembled as shown in the figure.</P>
+</DIV9>
+</DIV5>
+</DIV4>
+</DIV3>
+<DIV3 N="II" NODE="21:9.0.1" TYPE="CHAPTER">
+<HEAD>CHAPTER II - DRUG ENFORCEMENT ADMINISTRATION, DEPARTMENT OF JUSTICE</HEAD>
+<DIV5 N="1300" NODE="21:9.0.1.1.1" TYPE="PART">
+<HEAD>PART 1300 - DEFINITIONS</HEAD>
+<DIV8 N="1300.01" NODE="21:9.0.1.1.1.0.1.1" TYPE="SECTION">
+<HEAD>§ 1300.01   Definitions relating to controlled substances.</HEAD>
+<P>(a) Any term not defined in this part shall have the definition set forth in section 102 of the Act.</P>
+<P>(b) As used in this chapter, the following terms shall have the meanings specified:</P>
+<P><I>Administration</I> means the Drug Enforcement Administration.</P>
+<P><I>Controlled substance</I> means a drug or other substance, or immediate precursor, included in schedule I, II, III, IV, or V of part 1308 of this chapter.</P>
+</DIV8>
+</DIV5>
+</DIV3>
+<DIV3 N="III" NODE="21:9.0.2" TYPE="CHAPTER">
+<HEAD>CHAPTER III - OFFICE OF NATIONAL DRUG CONTROL POLICY</HEAD>
+<DIV5 N="1401" NODE="21:9.0.2.1.1" TYPE="PART">
+<HEAD>PART 1401 - PUBLIC AVAILABILITY OF INFORMATION</HEAD>
+<DIV8 N="1401.1" NODE="21:9.0.2.1.1.0.1.1" TYPE="SECTION">
+<HEAD>§ 1401.1   Purpose.</HEAD>
+<P>This part sets forth the policies and procedures of the Office of National Drug Control Policy regarding public access to documents.</P>
+</DIV8>
+</DIV5>
+</DIV3>
+</DIV1>
+</ECFR>

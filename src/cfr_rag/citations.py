@@ -16,16 +16,17 @@ from dataclasses import dataclass
 SECTION_NUM = r"\d{1,4}\.\d{1,4}[a-z]?"
 PARAGRAPH = r"(?:\((?:[a-z]{1,4}|\d{1,3}|[A-Z]{1,3})\))+"
 
+_LIST_SEP = r"\s*(?:,\s*(?:and|or|through)?|\band\b|\bor\b|\bthrough\b|\bto\b|-|–)\s*"
 _SECTION_RE = re.compile(rf"(?P<section>{SECTION_NUM})(?P<para>{PARAGRAPH})?")
 _PREFIXED_SECTION_RE = re.compile(
     rf"(?:\b21\s*C\.?\s*F\.?\s*R\.?\s*(?:§§?|sections?|sec\.)?\s*|§§?\s*|\bsections?\s+|\bsec\.\s*)"
     rf"(?P<list>{SECTION_NUM}(?:{PARAGRAPH})?"
-    rf"(?:\s*(?:,|and|or|through|to|-|–)\s*(?:§\s*)?{SECTION_NUM}(?:{PARAGRAPH})?)*)",
+    rf"(?:{_LIST_SEP}(?:§\s*)?(?:{SECTION_NUM}(?:{PARAGRAPH})?|{PARAGRAPH}))*)",
     re.IGNORECASE,
 )
 _BARE_WITH_PARA_RE = re.compile(rf"(?<![\w.]){SECTION_NUM}{PARAGRAPH}")
 _PART_RE = re.compile(
-    r"(?:\b21\s*C\.?\s*F\.?\s*R\.?\s*)?\bparts?\s+(?P<list>\d{1,4}(?:\s*(?:,|and|or)\s*\d{1,4})*)\b"
+    rf"(?:\b21\s*C\.?\s*F\.?\s*R\.?\s*)?\bparts?\s+(?P<list>\d{{1,4}}(?:{_LIST_SEP}\d{{1,4}})*)\b"
     r"(?!\.\d)",
     re.IGNORECASE,
 )
