@@ -2,7 +2,7 @@ from pathlib import Path
 
 import numpy as np
 import pytest
-from conftest import FIXTURE_XML
+from conftest import FIXTURE_XML, offline_cfg
 
 from cfr_rag.config import load_config
 from cfr_rag.embeddings.base import build_embedder, project
@@ -10,17 +10,6 @@ from cfr_rag.index.builder import build_indexes, load_indexes
 from cfr_rag.index.metadata import IndexMismatchError
 from cfr_rag.index.numpy_index import NumpyIndex
 from cfr_rag.ingest.service import ingest
-
-
-def offline_cfg(tmp_path: Path, **over):
-    base = {
-        "paths": {"db_path": str(tmp_path / "db.sqlite"), "index_dir": str(tmp_path / "index"),
-                  "cache_dir": str(tmp_path / "cache")},
-        "chunking": {"tokenizer": "approx"},
-        "embedding": {"backend": "hash", "model_name": "hash-test"},
-        "index": {"dense": {"type": "numpy"}, "lexical": {"backend": "simple"}},
-    }
-    return load_config("config/default.yaml", overrides=base).with_overrides(over)
 
 
 def test_matryoshka_projection_renormalizes():
