@@ -189,7 +189,11 @@ class ECFRParser:
         return list(self.parse_element(root))
 
     def parse_element(self, root: etree._Element) -> Iterator[Section]:
-        yield from self._walk(root, _Context(title=self.title))
+        # Wrap the root so a document whose root is itself a typed DIV (e.g. the per-part
+        # XML from ``?part=``) is entered like any other hierarchy level.
+        wrapper = etree.Element("ROOT")
+        wrapper.append(root)
+        yield from self._walk(wrapper, _Context(title=self.title))
 
     # ------------------------------------------------------------------ traversal
     def _walk(self, el: etree._Element, ctx: _Context) -> Iterator[Section]:

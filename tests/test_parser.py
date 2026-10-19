@@ -73,3 +73,21 @@ def test_nester_roman_vs_letter():
 def test_split_leading_markers():
     markers, rest = split_leading_markers("(b)(1) Text here")
     assert markers == [("b", False), ("1", False)] and rest == "Text here"
+
+
+def test_part_level_document_with_structure_ancestry(tmp_path):
+    import json
+
+    from lxml import etree
+
+    root = etree.parse(str(FIXTURE_XML)).getroot()
+    part = next(d for d in root.iter("DIV5") if d.get("N") == "211")
+    (tmp_path / "part-211.xml").write_bytes(etree.tostring(part))
+    (tmp_path / "structure.json").write_text(json.dumps({"type": "title", "children": [
+        {"type": "chapter", "identifier": "I", "label_description": "FDA", "children": [
+            {"type": "subchapter", "identifier": "C", "label_description": "Drugs", "children": [
+                {"type": "part", "identifier": "211"}]}]}]}))
+    secs = {s.section_id: s for s in ECFRParser(chapters=["I"]).parse_path(tmp_path)}
+    s = secs["211.68"]
+    assert (s.chapter, s.subchapter, s.part, s.subpart) == ("I", "C", "211", "D")
+    assert s.part_heading.startswith("CURRENT GOOD")
